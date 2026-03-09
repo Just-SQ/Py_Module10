@@ -102,7 +102,7 @@ max_attempts: int = 5
 
 
 @retry_spell(max_attempts)
-def spell_tester(random_list):
+def spell_tester(random_list) -> str:
     var: str | None = choice(random_list)
     if var:
         return var
