@@ -60,7 +60,7 @@ class MageGuild:
 
 
 @spell_timer
-def fireball():
+def fireball() -> str:
     sleep(0.101)
     return "fireball cast!"
 
@@ -84,7 +84,7 @@ min_power: int = 10
 
 
 @power_validator(min_power)
-def spell(power):
+def spell(power: int) -> int:
     return power
 
 
@@ -97,7 +97,7 @@ except ValueError as e:
 
 print("\nTesting retry spell...")
 
-test: list[None | str] = [None, None, "it work"]
+rand_list: list[None | str] = [None, None, "it work"]
 max_attempts: int = 5
 
 
@@ -110,4 +110,4 @@ def spell_tester(random_list):
         raise ValueError
 
 
-print(spell_tester(test))
+print(spell_tester(rand_list))
