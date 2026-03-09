@@ -107,7 +107,7 @@ def spell_tester(random_list):
     if var:
         return var
     else:
-        raise ValueError("it's None")
+        raise ValueError
 
 
 print(spell_tester(test))
