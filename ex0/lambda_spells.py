@@ -39,7 +39,7 @@ def mage_stats(mages: list[dict]) -> dict:
     return {
         'max_power': max_power,
         'min_power': min_power,
-        'avg_power': avg_power / len(mages)
+        'avg_power': avg_power // len(mages)
     }
 
 
@@ -49,11 +49,29 @@ artifacts: list[dict] = [
 ]
 spells: list[str] = ['fireball', 'heal', 'shield']
 
-artifacts = artifact_sorter(artifacts)
 print("\nTesting artifact sorter...")
+artifacts = artifact_sorter(artifacts)
 print(f"{artifacts[0]['name']} ({artifacts[0]['power']} power) comes "
       f"before {artifacts[1]['name']} ({artifacts[1]['power']} power)")
 
-spells = spell_transformer(spells)
 print("\nTesting spell transformer...")
+spells = spell_transformer(spells)
 print(*spells)
+
+print("\nTesting power filter...")
+mages: list[dict] = [
+    {'name': 'Luna', 'power': 51, 'element': 'shadow'},
+    {'name': 'Nova', 'power': 59, 'element': 'fire'},
+    {'name': 'Rowan', 'power': 99, 'element': 'earth'},
+    {'name': 'Ember', 'power': 83, 'element': 'water'},
+    {'name': 'Phoenix', 'power': 98, 'element': 'earth'}
+]
+filtred_mages: list[dict] = power_filter(mages, 90)
+for mage in filtred_mages:
+    print(mage)
+
+print("\nTesting mages stats...")
+mages_stats: dict[str, int] = mage_stats(mages)
+print("max power:", mages_stats['max_power'])
+print("min power:", mages_stats['min_power'])
+print("avg power:", mages_stats['avg_power'])

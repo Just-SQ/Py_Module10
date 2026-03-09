@@ -1,8 +1,10 @@
 from functools import wraps
 from time import time, sleep
+from typing import Callable
+from random import choice
 
 
-def spell_timer(func: callable) -> callable:
+def spell_timer(func: Callable) -> Callable:
     @wraps(func)
     def timer(*args):
         print(f"Casting {func.__name__}...")
@@ -14,8 +16,8 @@ def spell_timer(func: callable) -> callable:
     return timer
 
 
-def power_validator(min_power: int) -> callable:
-    def decorator(func):
+def power_validator(min_power: int) -> Callable:
+    def decorator(func: Callable):
         @wraps(func)
         def validator(*args, **kwargs):
             try:
@@ -33,7 +35,7 @@ def power_validator(min_power: int) -> callable:
     return decorator
 
 
-def retry_spell(max_attempts: int) -> callable:
+def retry_spell(max_attempts: int) -> Callable:
     def decorator(func):
         @wraps(func)
         def spell(*args, **kwargs):
@@ -76,3 +78,36 @@ try:
     print(mage.cast_spell(spell_name, power=9))
 except Exception as e:
     print(e)
+
+print("\nTesting power validator...")
+min_power: int = 10
+
+
+@power_validator(min_power)
+def spell(power):
+    return power
+
+
+try:
+    print("This is what happen if argument (power) is < min_power:",
+          spell(power=9))
+except ValueError as e:
+    print(e)
+    exit(1)
+
+print("\nTesting retry spell...")
+
+test: list[None | str] = [None, None, "it work"]
+max_attempts: int = 5
+
+
+@retry_spell(max_attempts)
+def spell_tester(random_list):
+    var: str | None = choice(random_list)
+    if var:
+        return var
+    else:
+        raise ValueError("it's None")
+
+
+print(spell_tester(test))
